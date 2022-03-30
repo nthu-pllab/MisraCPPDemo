@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>code-viewer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.2/codemirror.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.2/theme/dracula.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.2/addon/dialog/dialog.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.2/addon/search/matchesonscrollbar.min.css">
+</head>
+<style>
+.CodeMirror{
+  font-size: 1.2em;
+}
+</style>
+<body>
+<br>
+<div class="container">
+<div class="row">
+  <div class="col-sm-2 text-right"><kbd>Ctrl + F</kbd></div><div class="col-sm-2"> Start to search</div>
+  <div class="col-sm-2 text-right"><kbd>Alt + G</kbd></div><div class="col-sm-2"> Jump to line</div>
+</div>
+<div class="row">
+  <div class="col-sm-2 text-right"><kbd>Ctrl + G</kbd></div><div class="col-sm-2"> Find next match</div>
+</div>
+<div class="row">
+  <div class="col-sm-2 text-right"><kbd>Shift + Ctrl + G</kbd></div><div class="col-sm-2"> Find previous match</div>
+</div>
+<hr>
+<div class="row">
+  <div class="col-sm-6">
+    <div class="input-group">
+    <input id="search-input" type="text" class="form-control" placeholder="Relative path...">
+    <span class="input-group-btn">
+        <button id="search-btn" class="btn btn-default" type="button">Load</button>
+    </span>
+    </div>
+  </div>
+</div>
+<br>
+<textarea id="code" autofocus></textarea>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.2/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.2/mode/clike/clike.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.2/addon/search/search.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.2/addon/search/searchcursor.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.2/addon/search/jump-to-line.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.2/addon/dialog/dialog.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.2/addon/scroll/annotatescrollbar.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.2/addon/search/matchesonscrollbar.min.js"></script>
+<script>
+var editor = CodeMirror.fromTextArea(document.getElementById('code'), {
+  mode: 'clike',
+  theme: 'dracula',
+  lineNumbers: true,
+  lineWrapping: true,
+  indentUnit: 4,
+  indentWithTabs: true,
+  showCursorWhenSelecting: true
+});
+editor.setSize(null, 550);
+$(function(){
+_path = "";
+
+function loadFile(path){
+  if(path == "" || path == _path)
+    return;
+  _path = path;
+  document.title = path.split(/[\\/]/).pop();
+  $.get(path).done(function(data){
+    editor.setValue(data);
+    editor.focus();
+  }).fail(function(xhr, status, error){
+    editor.setValue(xhr.status + " " + error);
+  });
+}
+
+function checkInput(push){
+  var input = $("#search-input");
+  var path = input.val();
+  if(path == ""){
+    input.attr("placeholder", "Relative path should not be empty.");
+    return;
+  }
+  if(!(push === false)){
+    history.pushState({}, document.title, "?q="+path);
+  }
+  loadFile(path);
+}
+
+function parseQuery(){
+  var search = window.location.search;
+  var ret = false;
+  if(search.startsWith("?q=")){
+    var param = search.slice(3).split("&", 1);
+    if(param.length){
+      $("#search-input").val(decodeURIComponent(param));
+      checkInput(false);
+      ret = true;
+    }
+  }
+  return ret;
+}
+
+$(window).on('popstate', function() {
+  _path = '';
+  if(!parseQuery())
+    location.reload(true);
+});
+
+$('#search-btn').click(checkInput);
+$("#search-input").keydown(function(e){
+  if ((e.keyCode || e.which) == 13) {
+    $('#search-btn').click();
+  }
+});
+
+parseQuery();
+})
+</script>
+</body>
+</html>

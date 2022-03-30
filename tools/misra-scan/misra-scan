@@ -1,0 +1,163 @@
+#!/usr/bin/env python3
+import argparse
+import datetime
+import glob
+import json
+import os
+import sys
+import time
+import subprocess
+
+try:
+    import dateutil.parser
+except ImportError:
+    print("Please install required packages first. Check Readme.md for details.")
+    sys.exit(1)
+
+from libmisrascan.libmisrascan import MISRA_SCAN_BUILD
+
+MISRA_SCAN_ROOT = os.path.dirname(os.path.abspath(__file__))
+DEFAULT_CONFIG = os.path.join(MISRA_SCAN_ROOT, 'config.json')
+CONFIG_KEYS = ['scanbuild_path', 'misrac_so_path', 'checkers']
+
+
+class IllegalArgumentError(Exception):
+    pass
+
+
+class MisraScanConfigError(Exception):
+    pass
+
+
+def parseArguments():
+    parser = argparse.ArgumentParser(
+        description='The enhanced scan-build for MisraC checkers.',
+        usage='misra-scan [options] <build command>')
+    parser.add_argument(
+        '-config-path',
+        metavar='<path>',
+        help='specifies the path to customized config (the default one will not be used)')
+    parser.add_argument(
+        '-o',
+        metavar='<path>',
+        help='specifies the output directory for analyzer reports')
+    parser.add_argument(
+        'cmd', metavar='<build command>', nargs=argparse.REMAINDER,
+        help='specifies the command to build your project')
+    args = parser.parse_args()
+
+    if len(args.cmd) == 0:
+        parser.print_usage()
+        raise IllegalArgumentError(
+            "<build command> should be explicitly specified.")
+
+    if not args.o:
+        args.o = 'report'
+
+    return args
+
+
+def parseConfig(config_path):
+    try:
+        with open(config_path) as fp:
+            settings = json.load(fp)
+    except json.decoder.JSONDecodeError:
+        raise MisraScanConfigError(
+            f"The config file ({config_path}) is not in valid JSON format.")
+    except:
+        raise
+
+    return settings
+
+
+def parseConfigs(config_list):
+    settings = {}
+    for config in config_list:
+        if config:
+            settings.update(parseConfig(config))
+    return settings
+
+
+def checkConfigValidity(settings):
+    for key in CONFIG_KEYS:
+        if key not in settings:
+            raise MisraScanConfigError(
+                f"key is missing in config file: '{key}'")
+
+    for key in CONFIG_KEYS[:2]:
+        path = settings[key]
+        if not os.path.isabs(path):
+            path = os.path.abspath(os.path.join(os.path.dirname(__file__), path))
+            settings[key] = path
+        if not os.path.isfile(path):
+            raise MisraScanConfigError(
+                f"'{key}' is not a valid path: '{path}'")
+
+    key = CONFIG_KEYS[2]
+    obj = settings[key]
+    if not isinstance(obj, list) or isinstance(obj, str):
+        raise MisraScanConfigError(
+            f"'{key}' is not an array: '{obj}'")
+    for item in obj:
+        if not isinstance(item, str):
+            raise MisraScanConfigError(
+                f"'{key}' contains a non-string object: '{item}'")
+
+
+def generateCommand(args, settings):
+    argv = []
+
+    argv.append(MISRA_SCAN_BUILD)
+    argv.extend(['-config-path',
+                 args.config_path if args.config_path else DEFAULT_CONFIG])
+    argv.extend(['-load-plugin', settings[CONFIG_KEYS[1]]])
+    argv.extend(['--use-analyzer',
+                 os.path.dirname(settings[CONFIG_KEYS[0]])])
+    argv.extend(['-o', args.o])
+    argv.append('-k')
+    argv.extend(args.cmd)
+
+    return ' '.join(argv)
+
+
+def findReportDir(args_o, timestamp):
+    for dir in sorted(glob.glob(os.path.join(args_o, '*-*-*-*-*-*')), reverse=False):
+        clean_dir = os.path.basename(dir)
+        if os.path.isdir(dir):
+            dir_time_str = '-'.join(clean_dir.split('-')[:4])
+            dir_time_obj = dateutil.parser.parse(dir_time_str)
+            if dir_time_obj >= timestamp:
+                return dir
+    return None
+
+
+def outputElapsedTime(rpt_dir, start_time, end_time):
+    elapsed_time = (end_time - start_time).total_seconds()
+    time_info = f"{elapsed_time} seconds (from {start_time} to {end_time})"
+    print(f"Analysis Time: {time_info}")
+
+    if rpt_dir:
+        time_report = os.path.join(rpt_dir, 'timing.txt')
+        with open(time_report, 'w') as fp:
+            fp.write(time_info)
+
+
+def main():
+    args = parseArguments()
+    settings = parseConfigs([DEFAULT_CONFIG, args.config_path])
+    checkConfigValidity(settings)
+    cmd = generateCommand(args, settings)
+    print(cmd)
+
+    timestamp = datetime.datetime.now()
+    time.sleep(1)
+    start_time = datetime.datetime.now()
+    subprocess.call(cmd, shell=True)
+    end_time = datetime.datetime.now()
+
+    rpt_dir = findReportDir(args.o, timestamp)
+    outputElapsedTime(rpt_dir, start_time, end_time)
+
+
+if __name__ == "__main__":
+    main()

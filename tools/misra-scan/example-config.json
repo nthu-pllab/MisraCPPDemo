@@ -1,0 +1,14 @@
+{
+"name": "cbmc config",
+"checkers": [
+"MisraCPP.0_1_5",
+"MisraCPP.2_3_1", "MisraCPP.2_5_1", "MisraCPP.2_7_1", "MisraCPP.2_10_2",
+"MisraCPP.2_13_1", "MisraCPP.2_13_2", "MisraCPP.2_13_3", "MisraCPP.2_13_4",
+"MisraCPP.3_1_3",
+"MisraCPP.4_5_1",
+"MisraCPP.5_0_4", "MisraCPP.5_0_5", "MisraCPP.5_2_5",
+"MisraCPP.5_2_9", "MisraCPP.5_3_4", "MisraCPP.5_18_1",
+"MisraCPP.6_6_2",
+"MisraCPP.9_5_1"
+]
+}

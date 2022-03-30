@@ -1,0 +1,15 @@
+tools/testing/report/
+tools/misra-scan/bin
+tools/misra-scan/lib
+tools/verifier/results/
+tools/verifier/projects/*/extract
+tools/verifier/projects/*/idirs
+tools/verifier/projects/*/src
+__pycache__
+tags
+*.swp
+.python-version
+.vscode/
+
+# add example project and inner files by -f
+example

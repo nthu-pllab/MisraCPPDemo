@@ -1,0 +1,12 @@
+{
+  "name": "libzmq",
+  "checkers": [
+    "MisraCPP.3_9_3",
+    "MisraCPP.5_0_10",
+    "MisraCPP.10_1_2",
+    "MisraCPP.14_8_1",
+    "MisraCPP.14_8_2",
+    "MisraCPP.15_3_2",
+    "MisraCPP.16_0_7"
+  ]
+}

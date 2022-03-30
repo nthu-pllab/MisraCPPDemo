@@ -1,0 +1,709 @@
+//#define STR(S) #S
+
+/* Basic macros ***********/
+
+#ifndef TYPE
+#define TYPE(NAME) //STR(type(NAME))
+#endif
+
+#ifndef MACRO
+#define MACRO(NAME) //STR(macro(NAME))
+#endif
+
+#ifndef FUNC
+#define FUNC(NAME) //STR(func(NAME))
+#endif
+
+#ifndef PRAGMA
+#define PRAGMA(NAME) //STR(pragma(NAME))
+#endif
+
+/*************************/
+
+#ifndef VARIABLE
+#define VARIABLE(NAME) TYPE(NAME)
+#endif
+
+#ifndef STRUCT
+#define STRUCT(NAME) TYPE(NAME)
+#endif
+
+#ifndef VAR
+#define VAR(NAME) TYPE(NAME)
+#endif
+
+#ifndef LIB_NAME
+#define LIB_NAME(NAME)
+#endif
+
+#define COMPLEX(fun) FUNC(c##fun) FUNC(c##fun##f) FUNC(c##fun##l)
+#define CTYPE(fun) FUNC(is##fun)
+#define CTYPE_TO(fun) FUNC(to##fun)
+
+#define MJOIN2(type, post)                                                     \
+  MACRO(type##8##post) MACRO(type##16##post) MACRO(type##32##post)          \
+      MACRO(type##64##post)
+#define TJOIN2(type, post)                                                     \
+  TYPE(type##8##post) TYPE(type##16##post) TYPE(type##32##post)             \
+      TYPE(type##64##post)
+
+#define N(T, fun)                                                              \
+  T(fun##8) T(fun##16) T(fun##32) T(fun##64) T(fun##128) T(fun##256)
+#define NTYPE(fun) N(TYPE, fun)
+#define NMACRO(fun) N(MACRO, fun)
+
+
+// 7.2 <assert.h>
+LIB_NAME(assert.h)
+MACRO(NDEBUG)
+FUNC(assert)
+
+//+7.3 - <complex.h>
+LIB_NAME(complex.h)
+TYPE(complex)
+MACRO(I)
+// 7.3.5
+COMPLEX(atan)
+COMPLEX(acos)
+COMPLEX(cos)
+COMPLEX(sin)
+COMPLEX(tan)
+// 7.3.6
+COMPLEX(atanh)
+COMPLEX(cosh)
+COMPLEX(sinh)
+COMPLEX(tanh)
+COMPLEX(exp)
+COMPLEX(log)
+COMPLEX(abs)
+COMPLEX(pow)
+COMPLEX(sqrt)
+// 7.3.9
+COMPLEX(arg)
+COMPLEX(imag)
+COMPLEX(onj)
+COMPLEX(proj)
+COMPLEX(real)
+
+//+7.4 - <ctype.h>
+LIB_NAME(ctype.h)
+CTYPE(alnum)
+CTYPE(alpha)
+CTYPE(blank)
+CTYPE(cntrl)
+CTYPE(digit)
+CTYPE(graph)
+CTYPE(slower)
+CTYPE(print)
+CTYPE(punct)
+CTYPE(space)
+CTYPE(upper)
+CTYPE(xdigit)
+// 7.4.2
+CTYPE_TO(lower)
+CTYPE_TO(upper)
+
+//+7.5 - <errno.h>
+LIB_NAME(errno.h)
+MACRO(EDOM)
+MACRO(EILSEQ)
+MACRO(ERANGE)
+MACRO(errno)
+
+//+7.6 - <fenv.h>
+LIB_NAME(fenv.h)
+TYPE(fenv_t)
+TYPE(fexcept_t)
+MACRO(FE_DIVBYZERO)
+MACRO(FE_INEXACT)
+MACRO(FE_INVALID)
+MACRO(FE_OVERFLOW)
+MACRO(FE_UNDEFFLOW)
+MACRO(FE_ALL_EXCERPT)
+MACRO(FE_DOWNWARD)
+MACRO(FE_TONEATEST)
+MACRO(FE_TOWARDZERO)
+MACRO(FE_UPWARD)
+MACRO(FE_DEFL_ENV)
+//?MACRO(FE_[A-Z]+)
+FUNC(feclearexcept)
+FUNC(fegetexceptflag)
+FUNC(fesetexceptflag)
+FUNC(fetestexcept)
+// 7.6.3
+FUNC(fegetround)
+FUNC(fesetround)
+// 7.6.4
+FUNC(fegetenv)
+FUNC(feholdexcept)
+FUNC(fesetenv)
+FUNC(feupdateenv)
+
+//+7.7 - <float.h>
+LIB_NAME(float.h)
+// TODO
+
+//+7.8 - <inttypes.h>
+LIB_NAME(inttypes.h)
+TYPE(imaxdiv_t)
+// 7.8.1
+#define FMACRO(PRI, f)                                                         \
+NMACRO(PRI##f) NMACRO(PRI##f##LEAST) NMACRO(PRI##f##FAST)                 \
+MACRO(PRI##f##MAX) MACRO(PRI##f##PTR)
+FMACRO(PRI, d)
+FMACRO(PRI, i)
+FMACRO(PRI, x)
+FMACRO(PRI, u)
+FMACRO(PRI, o)
+
+FMACRO(SCN, d)
+FMACRO(SCN, i)
+FMACRO(SCN, o)
+FMACRO(SCN, u)
+FMACRO(SCN, x)
+// 7.8.2.1
+FUNC(imaxabs)
+FUNC(imaxdiv)
+FUNC(strtoimax)
+FUNC(strtoumax)
+FUNC(wcstoimax)
+FUNC(wcstoumax)
+
+//+7.9 - <iso646.h>
+LIB_NAME(iso646.h)
+MACRO(and)
+MACRO(and_eq)
+MACRO(bitand)
+MACRO(bitor)
+MACRO(compl)
+MACRO(not)
+MACRO(not)
+MACRO(not_eq)
+MACRO(or)
+MACRO(or_eq)
+MACRO (xor)
+MACRO(xor_eq)
+
+//+7.10 - <limits.h>
+LIB_NAME(limits.h)
+
+//+7.11 - <locale.h>
+LIB_NAME(locale.h)
+STRUCT(lconv)
+VAR(decimal_point)
+VAR(thousands_sep)
+VAR(grouping)
+VAR(mon_decimal_point)
+VAR(mon_thousands_sep)
+VAR(mon_grouping)
+VAR(positive_sign)
+VAR(negative_sign)
+VAR(currency_symbol)
+VAR(frac_digits)
+VAR(p_cs_precedes)
+
+// 7.12 <math.h>
+LIB_NAME(math.h)
+TYPE(float_t)
+TYPE(double_t)
+MACRO(HUGE_VAL)
+MACRO(HUGE_VALL)
+MACRO(INFINITY)
+MACRO(NAN)
+MACRO(FP_INFINITE)
+MACRO(FP_NAN)
+MACRO(FP_NORMAL)
+MACRO(FP_SUBNORMAL)
+MACRO(FP_ZERO)
+MACRO(FP_FAST_FMA)
+MACRO(FP_FAST_FMAF)
+MACRO(FP_FAST_FMAL)
+MACRO(FP_ILOGB0)
+MACRO(FP_ILOGBNAN)
+MACRO(MATH_ERRNO)
+MACRO(MATH_ERREXCEPT)
+MACRO(math_errhandling)
+
+PRAGMA(STDC FP_CONTRACT)
+
+MACRO(fpclassify)
+MACRO(isfinite)
+MACRO(isinf)
+MACRO(isnan)
+MACRO(isnormal)
+MACRO(signbit)
+
+// func
+#define TREE_TYPE_FUNC(fun) FUNC(fun) FUNC(fun##f) FUNC(fun##l)
+TREE_TYPE_FUNC(acos)
+TREE_TYPE_FUNC(asin)
+TREE_TYPE_FUNC(atan)
+TREE_TYPE_FUNC(atan2)
+TREE_TYPE_FUNC(cos)
+TREE_TYPE_FUNC(sin)
+TREE_TYPE_FUNC(tan)
+TREE_TYPE_FUNC(acosh)
+TREE_TYPE_FUNC(asinh)
+TREE_TYPE_FUNC(atanh)
+TREE_TYPE_FUNC(cosh)
+TREE_TYPE_FUNC(sinh)
+TREE_TYPE_FUNC(tanh)
+TREE_TYPE_FUNC(exp)
+TREE_TYPE_FUNC(exp2)
+TREE_TYPE_FUNC(expm1)
+TREE_TYPE_FUNC(frexp)
+TREE_TYPE_FUNC(ilogb)
+TREE_TYPE_FUNC(log)
+TREE_TYPE_FUNC(log10)
+TREE_TYPE_FUNC(log1p)
+TREE_TYPE_FUNC(log2)
+TREE_TYPE_FUNC(logb)
+TREE_TYPE_FUNC(modf)
+TREE_TYPE_FUNC(scalbn)
+TREE_TYPE_FUNC(scalbln)
+TREE_TYPE_FUNC(cbrt)
+TREE_TYPE_FUNC(fabs)
+TREE_TYPE_FUNC(hypot)
+TREE_TYPE_FUNC(pow)
+TREE_TYPE_FUNC(sqrt)
+TREE_TYPE_FUNC(erf)
+TREE_TYPE_FUNC(erfc)
+TREE_TYPE_FUNC(lgamma)
+TREE_TYPE_FUNC(tgamma)
+TREE_TYPE_FUNC(ceil)
+TREE_TYPE_FUNC(floor)
+TREE_TYPE_FUNC(nearbyint)
+TREE_TYPE_FUNC(rint)
+TREE_TYPE_FUNC(lrint)
+TREE_TYPE_FUNC(llrint)
+TREE_TYPE_FUNC(round)
+TREE_TYPE_FUNC(lround)
+TREE_TYPE_FUNC(llround)
+TREE_TYPE_FUNC(trunc)
+TREE_TYPE_FUNC(fmod)
+TREE_TYPE_FUNC(remainder)
+TREE_TYPE_FUNC(remquo)
+TREE_TYPE_FUNC(copysign)
+TREE_TYPE_FUNC(nan)
+TREE_TYPE_FUNC(nextafter)
+TREE_TYPE_FUNC(nexttoward)
+TREE_TYPE_FUNC(fdim)
+TREE_TYPE_FUNC(fmax)
+TREE_TYPE_FUNC(fmin)
+TREE_TYPE_FUNC(fma)
+
+MACRO(isgreater)
+MACRO(isgreaterequal)
+MACRO(isless)
+MACRO(islessequal)
+MACRO(islessgreater)
+MACRO(isunordered)
+
+// 7.13
+LIB_NAME(setjmp.h)
+TYPE(jmp_buf)
+MACRO(etjmp)
+MACRO(longjmp)
+
+// 7.14
+LIB_NAME(signal.h)
+TYPE(sig_atomic_t)
+MACRO(SIG_DFL)
+MACRO(SIG_ERR)
+MACRO(SIG_IGN)
+MACRO(SIGABRT)
+MACRO(SIGFPE)
+MACRO(SIGILL)
+MACRO(SIGINT)
+MACRO(SIGSEGV)
+MACRO(SIGTERM)
+FUNC(signal)
+FUNC(raise)
+
+// 7.15
+LIB_NAME(stdarg.h)
+TYPE(va_list)
+MACRO(va_arg)
+MACRO(va_copy)
+MACRO(va_end)
+MACRO(va_start)
+
+//+7.16 - <stdbool.h>
+LIB_NAME(stdbool.h)
+MACRO(bool)
+MACRO(true)
+MACRO(false)
+MACRO(__bool_true_false_are_defined)
+
+//+7.16 - <stddef.h>
+LIB_NAME(stddef.h)
+TYPE(ptrdiff_t)
+TYPE(size_t)
+TYPE(wchar_t)
+MACRO(NULL)
+FUNC(offsetof)
+
+//+7.18 - <stdint.h>
+LIB_NAME(stdint.h)
+// ignore 24,40,48,56 which define in clang stdint.h but not(?) in
+// standard
+TJOIN2(int, _t)
+TJOIN2(uint, _t)
+
+TJOIN2(int_least, _t)
+TJOIN2(uint_least, _t)
+
+TJOIN2(int_fast, _t)
+TJOIN2(uint_fast, _t)
+
+MACRO(intmax_t)
+MACRO(uintmax_t)
+
+MJOIN2(INT, _MIN)
+MJOIN2(INT, _MAX)
+MJOIN2(UINT, _MAX)
+
+MJOIN2(INT_LEAST, _MIN)
+MJOIN2(INT_LEAST, _MAX)
+MJOIN2(UINT_LEAST, _MAX)
+
+MJOIN2(INT_FAST, _MIN)
+MJOIN2(INT_FAST, _MAX)
+MJOIN2(UINT_FAST, _MAX)
+
+MACRO(INTPTR_MIN)
+MACRO(INTPTR_MAX)
+MACRO(UINTPTR_MAX)
+
+MACRO(INTMAX_MIN)
+MACRO(INTMAX_MAX)
+MACRO(UINTMAX_MAX)
+
+MACRO(PTRDIFF_MIN)
+MACRO(PTRDIFF_MAX)
+MACRO(SIG_ATOMIC_MIN)
+MACRO(SIG_ATOMIC_MAX)
+MACRO(SIZE_MAX)
+
+MACRO(WCHAR_MIN)
+MACRO(WCHAR_MAX)
+MACRO(WINT_MIN)
+MACRO(WINT_MAX)
+MACRO(INTMAX_C)
+MACRO(UINTMAX_C)
+MJOIN2(INT,_C)
+MJOIN2(UINT,_C)
+
+//+7.19 - <stdio.h>
+LIB_NAME(stdio.h)
+TYPE(FILE)
+TYPE(fpos_t)
+
+MACRO(_IOFBF)
+MACRO(_IOLBF)
+MACRO(_IONBF)
+MACRO(BUFSIZ)
+MACRO(EOF)
+MACRO(FOPEN_MAX)
+MACRO(FILENAME_MAX)
+MACRO(L_tmpnam)
+MACRO(SEEK_CUR)
+MACRO(SEEK_END)
+MACRO(SEEK_SET)
+MACRO(TMP_MAX)
+MACRO(stderr)
+MACRO(stdin)
+MACRO(stdout)
+
+// overlap with wchar.h
+FUNC(fgetwc)
+FUNC(fgetws)
+FUNC(getwc)
+FUNC(getwchar)
+FUNC(fwscanf)
+FUNC(wscanf)
+FUNC(vfwscanf)
+FUNC(vwscanf)
+FUNC(fputwc)
+FUNC(fputws)
+FUNC(putwc)
+FUNC(putwchar)
+FUNC(fwprintf)
+FUNC(wprintf)
+FUNC(vfwprintf)
+FUNC(vwprintf)
+FUNC(ungetwc)
+
+FUNC(remove)
+FUNC(rename)
+FUNC(tmpfile)
+FUNC(tmpnam)
+FUNC(fclose)
+FUNC(fflush)
+FUNC(fopen)
+FUNC(freopen)
+FUNC(setbuf)
+FUNC(setvbuf)
+FUNC(fprintf)
+FUNC(fscanf)
+FUNC(printf)
+FUNC(scanf)
+FUNC(snprintf)
+FUNC(sprintf)
+FUNC(sscanf)
+FUNC(vfprintf)
+FUNC(vfscanf)
+FUNC(vscanf)
+FUNC(vsscanf)
+FUNC(vprintf)
+FUNC(vsprintf)
+FUNC(vsnprintf)
+FUNC(fgetc)
+FUNC(fgets)
+FUNC(fputc)
+FUNC(fputs)
+FUNC(getc)
+FUNC(getchar)
+FUNC(gets)
+FUNC(putc)
+FUNC(putchar)
+FUNC(puts)
+FUNC(ungetc)
+FUNC(fread)
+FUNC(fwrite)
+FUNC(fgetpos)
+FUNC(fseek)
+FUNC(fsetpos)
+FUNC(ftell)
+FUNC(rewind)
+FUNC(clearerr)
+FUNC(feof)
+FUNC(ferror)
+FUNC(perror)
+
+//+7.20 - <stdlib.h>
+LIB_NAME(stdlib.h)
+TYPE(div_t)
+TYPE(ldiv_t)
+TYPE(lldiv_t)
+
+MACRO(EXIT_FAILURE)
+MACRO(EXIT_SUCCESS)
+MACRO(RAND_MAX)
+MACRO(MB_CUR_MAX)
+
+FUNC(atof)
+FUNC(atoi)
+FUNC(atol)
+FUNC(atoll)
+FUNC(strtod)
+FUNC(strtof)
+FUNC(strtold)
+FUNC(strtol)
+FUNC(strtoll)
+FUNC(strtoul)
+FUNC(strtoull)
+
+FUNC(rand)
+FUNC(srand)
+FUNC(calloc)
+FUNC(malloc)
+FUNC(realloc)
+FUNC(free)
+
+FUNC(abort)
+FUNC(atexit)
+FUNC(exit)
+FUNC(_Exit)
+FUNC(getenv)
+FUNC(system)
+FUNC(bsearch)
+FUNC(qsort)
+FUNC(abs)
+FUNC(labs)
+FUNC(llabs)
+FUNC(div)
+FUNC(ldiv)
+FUNC(lldiv)
+FUNC(mblen)
+FUNC(mbtowc)
+FUNC(wctomb)
+FUNC(mbstowcs)
+FUNC(wcstombs)
+
+//+7.21 - <string.h>
+LIB_NAME(string.h)
+// 7.21.2
+FUNC(memcpy)
+FUNC(memmove)
+FUNC(strcpy)
+FUNC(strncpy)
+// 7.21.3
+FUNC(strcat)
+FUNC(strncat)
+// 7.21.4
+FUNC(memcmp)
+FUNC(strcmp)
+FUNC(strcoll)
+FUNC(strncmp)
+FUNC(strxfrm)
+// 7.21.5
+FUNC(memchr)
+FUNC(strchr)
+FUNC(strcspn)
+FUNC(strpbrk)
+FUNC(strrchr)
+FUNC(strspn)
+FUNC(strstr)
+FUNC(strtok)
+// 7.21.6
+FUNC(memset)
+FUNC(strerror)
+FUNC(strlen)
+
+//+7.22 - <tgmath.h>
+LIB_NAME(tgmath.h)
+
+//+7.23 - <time.h>
+LIB_NAME(time.h)
+TYPE(clock_t)
+TYPE(time_t)
+TYPE(size_t)
+STRUCT(tm)
+MACRO(CLOCKS_PER_SEC)
+MACRO(NULL)
+/*
+TYPE(tm_sec)
+TYPE(tm_min)
+TYPE(tm_hour)
+TYPE(tm_mday)
+TYPE(tm_mon)
+TYPE(tm_year)
+TYPE(tm_wday)
+TYPE(tm_yday)
+TYPE(tm_isdst)
+*/
+// 7.23.2
+FUNC(clock)
+FUNC(difftime)
+FUNC(mktime)
+FUNC(time)
+// 7.23.3
+FUNC(asctime)
+FUNC(ctime)
+FUNC(gmtime)
+FUNC(localtime)
+FUNC(strftime)
+
+//+7.24 - <wchar.h>
+LIB_NAME(wchar.h)
+TYPE(mbstate_t)
+TYPE(wint_t)
+MACRO(WEOF)
+// 7.24.2
+FUNC(fwprintf)
+FUNC(fwscanf)
+FUNC(swprintf)
+FUNC(swscanf)
+FUNC(vfwprintf)
+FUNC(vfwscanf)
+FUNC(vswprintf)
+FUNC(vswscanf)
+FUNC(vwprintf)
+FUNC(vwscanf)
+FUNC(wprintf)
+FUNC(wscanf)
+// 7.24.3
+FUNC(fgetwc)
+FUNC(fgetws)
+FUNC(fputwc)
+FUNC(fputws)
+FUNC(fwide)
+FUNC(getwc)
+FUNC(getwchar)
+FUNC(putwc)
+FUNC(putwchar)
+FUNC(ungetwc)
+// 7.24.4
+FUNC(wcstod)
+FUNC(wcstof)
+FUNC(wcstold)
+FUNC(wcstol)
+FUNC(wcstoll)
+FUNC(wcstoul)
+FUNC(wcstoull)
+FUNC(wcscpy)
+FUNC(wcsncpy)
+FUNC(wmemcpy)
+FUNC(wmemmove)
+FUNC(wcscat)
+FUNC(wcsncat)
+FUNC(wcscmp)
+FUNC(wcscoll)
+FUNC(wcsncmp)
+FUNC(wcsxfrm)
+FUNC(wmemcmp)
+FUNC(wcschr)
+FUNC(wcscspn)
+FUNC(wcspbrk)
+FUNC(wcsrchr)
+FUNC(wcsspn)
+FUNC(wcsstr)
+FUNC(wcstok)
+FUNC(wmemchr)
+FUNC(wcslen)
+FUNC(wmemset)
+// 7.24.5
+FUNC(wcsftime)
+// 7.24.6
+FUNC(btowc)
+FUNC(wctob)
+FUNC(mbsinit)
+FUNC(mbrlen)
+FUNC(mbrtowc)
+FUNC(wcrtomb)
+FUNC(mbsrtowcs)
+FUNC(wcsrtombs)
+
+//+7.25 - <wctype.h>
+LIB_NAME(wctype.h)
+TYPE(wctrans_t)
+TYPE(wctype_t)
+// 7.25.2
+FUNC(iswalnum)
+FUNC(iswalpha)
+FUNC(iswblank)
+FUNC(iswcntrl)
+FUNC(iswdigit)
+FUNC(iswgraph)
+FUNC(iswlower)
+FUNC(iswprint)
+FUNC(iswpunct)
+FUNC(iswspace)
+FUNC(iswupper)
+FUNC(iswxdigit)
+FUNC(iswctype)
+FUNC(wctype)
+// 7.25.3
+FUNC(towlower)
+FUNC(towupper)
+FUNC(towctrans)
+FUNC(wctrans)
+
+
+/* For mathmatica gen
+list = DeleteCases[list, Null];
+get[t_] : =
+          StringReplace [Select[list, StringMatchQ[#, t ~~"(" ~~x__ ~~")"] & ],
+                         t ~~"(" ~~x__ ~~")": > x] print[t_]
+    : = "std::string " < > t<> "ID[] = {" < >
+        StringRiffle[get[t], ","]<> "};" Print
+            [StringRiffle[{print["func"], print["macro"], print["type"]}, "\n"]]
+*/
+#undef TYPE
+#undef MACRO
+#undef FUNC
+#undef PRAGMA
+#undef VARIABLE
+#undef STRUCT
+#undef VAR

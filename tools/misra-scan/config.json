@@ -1,0 +1,7 @@
+{
+    "name": "Please push this config only if any change in functionality is made.", 
+    "scanbuild_path": "bin/scan-build",
+    "misrac_so_path": "lib/MisracppChecker.so",
+    "checkers": [
+    ]
+}

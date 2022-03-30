@@ -1,0 +1,378 @@
+#define R2_3_1desc "Trigraphs shall not be used"
+#define R1_1desc                                                               \
+  "The program shall contain no violations of the standard C syntax "          \
+  "and constraints, and shall not exceed the implementation's "                \
+  "traslation limits"
+#define R1_2desc "Language extensions should not be used"
+#define R1_3desc                                                               \
+  "there shall be no occurrence of undefined or critical unspecified "         \
+  "behaviour"
+#define R2_1desc "A project shall not contain unreachable code"
+#define R2_2desc "There shall be no dead code"
+#define R2_3desc "A project should not contain unused type declarations"
+#define R2_4desc "A projects should not contain unused tag declarations"
+#define R2_5desc "A project should not contain unused macro declarations"
+#define R2_6desc "A function should not contain unused label declarations"
+#define R2_7desc "There should be no unused parameters in functions"
+#define R3_1desc "Bit-fields shall only be declared with an appropriate type"
+#define R3_2desc "Line-splicing shall not be used in // comments"
+#define R4_1desc "Octal and hexadecimal escape sequences shall be terminated"
+#define R4_2desc "Trigraphs should not be used"
+#define R5_1desc "External identifier shall be distinct"
+#define R5_2desc                                                               \
+  "Identifiers declared in the same scope and namespace shall be "             \
+  "distinct"
+#define R5_3desc                                                               \
+  "Identifier declared in an inner scope shall not hide an "                 \
+  "identifier declared in an outer scope"
+#define R5_4desc "Macro identifiers shall be distinct"
+#define R5_5desc "Identifers shall be distinct from macro name"
+#define R5_6desc "A typedef shall be a unique identifier"
+#define R5_7desc "A tag name shall be a unique identifier"
+#define R5_8desc                                                               \
+  "Identifiers that define objects or functions with external linkage "        \
+  "should be unique"
+#define R5_9desc                                                               \
+  "Identifiers that define objects or functions with internal linkage "        \
+  "should be unique"
+#define R6_1desc "Bit-fields shall only be declared with an appropriate type"
+#define R6_2desc "Single-bit named bit fields shall not be of a signed type"
+#define R7_1desc "Octal constants shall not be used"
+#define R7_2desc                                                               \
+  "A "                                                                         \
+  "\"u\" or "                                                                  \
+  "\"U\" suffix shall be applied to all integer constants that are "           \
+  "represented in an unsigned type"
+#define R7_3desc                                                               \
+  "The lowercase character \"l\" shall not be used in a literal suffix"
+#define R7_4desc                                                               \
+  "A string literal shall not be assigned to an object unless the "            \
+  "object's type is \"pointer to const-qualified char\""
+#define R8_1desc "Types shall be explicitly specified"
+#define R8_2desc "Function types shall be in protype form with named parameters"
+#define R8_3desc                                                               \
+  "All declarations of a object or function shall use the same names "         \
+  "and type qualifiers"
+#define R8_4desc                                                               \
+  "A compatible declaration shall be visible when an object or "               \
+  "function with external linkage is defined"
+#define R8_5desc                                                               \
+  "An external object or function shall be declared once in one an "           \
+  "only one file"
+#define R8_6desc                                                               \
+  "An identifier with external linkage shall have exactly one "                \
+  "external definition"
+#define R8_7desc                                                               \
+  "Functions and objects should not be defined with external linkage "         \
+  "if they are referenced in only one translation unit"
+#define R8_8desc                                                               \
+  "The static storage class specifier shall be used in all "                   \
+  "declarations of objects and functions that have internal linkage"
+#define R8_9desc                                                               \
+  "An object should be defined at block scope if its identifier only "         \
+  "appears in a single function"
+#define R8_10desc                                                              \
+  "An inline function shall be declared with the static storage class"
+#define R8_11desc                                                              \
+  "When an array with external linkage is declare, its size should "           \
+  "be explicitly specified"
+#define R8_12desc                                                              \
+  "Within an enumerator list the value of an implicitly-specified "            \
+  "enumeration constant shall be unique"
+#define R8_13desc                                                              \
+  "A pointer should point to a const-qualified type whenever possible"
+#define R8_14desc "The restrict type qualifier shall not be used"
+#define R9_1desc                                                               \
+  "The value of an object with automatic storage duration shall not "          \
+  "be read before it has been set"
+#define R9_2desc                                                               \
+  "The initializer for an aggregate or union shall be enclosed in "            \
+  "braces"
+#define R9_3desc "Array shall not be partially initialized"
+#define R9_4desc                                                               \
+  "An element of an object shall not be initialized more than once"
+#define R9_5desc                                                               \
+  "Where designated initializers are used to initialize an array "             \
+  "object the size of the array shall be specified"
+#define R10_1desc "Operands shall not be of an inappropriate essential type"
+#define R10_2desc                                                              \
+  "Expressions of essentially character type shall not be used "               \
+  "inappropriately in addition and subtraction operations"
+#define R10_3desc                                                              \
+  "The value of an expression shall not be assigned to an object with "        \
+  "a narrower essential type or of a different essential type category"
+#define R10_4desc                                                              \
+  "Both operands of an operator in which the usual arithmetic "                \
+  "conversions are performed shall have the same essential type "              \
+  "category"
+#define R10_5desc                                                              \
+  "The value of an expression should not be cast to an inappropriate "         \
+  "essential type"
+#define R10_6desc                                                              \
+  "The value of a composite expression shall not be assigned to an "           \
+  "object with wider essential type"
+#define R10_7desc                                                              \
+  "If a composite expression is used as one operand of an operator in "        \
+  "which the usual arithmetic conversions are performed then the "             \
+  "other operand shall not have wider essential type"
+#define R10_8desc                                                              \
+  "The value of a composite expression shall not be cast to a "                \
+  "different essential type category or a wider essential type"
+#define R11_1desc                                                              \
+  "Conversions shall not be performed between a pointer to a function "        \
+  "and any other type"
+#define R11_2desc                                                              \
+  "Conversions shall not be performed between a pointer to an "                \
+  "incomplete type and any other type"
+#define R11_3desc                                                              \
+  "A cast shall not be performed between a pointer to object type and "        \
+  "a pointer to a different object type"
+#define R11_4desc                                                              \
+  "A conversion should not be performed between a pointer to object "          \
+  "and an integer type"
+#define R11_5desc                                                              \
+  "A conversion should not be performed from pointer to void into "            \
+  "pointer to object"
+#define R11_6desc                                                              \
+  "A cast shall not be performed between pointer to void and an "              \
+  "arithmetic type"
+#define R11_7desc                                                              \
+  "A cast shall not be performed between pointer to object and a "             \
+  "non-integer arithmetic type"
+#define R11_8desc                                                              \
+  "A cast shall not remove any const or volatile qualification from "          \
+  "the type pointed to by a pointer"
+#define R11_9desc                                                              \
+  "The macro NULL shall be the only permitted form of integer null "           \
+  "pointer constant"
+#define R12_1desc                                                              \
+  "The precedence of operators within expressions should be made "             \
+  "explicit"
+#define R12_2desc                                                              \
+  "The right hand operand of a shift operator shall lie in the range "         \
+  "zero to one less than the width in bits of the essential type of "          \
+  "the left hand operand"
+#define R12_3desc "The comma operator should not be used"
+#define R12_4desc                                                              \
+  "Evaluation of constant expressions should not lead to unsigned "            \
+  "integer wrap-around"
+#define R12_5desc                                                              \
+  "The sizeof operator shall not have an operand which is a function "         \
+  "parameter declared as \"array of type\""
+#define R13_1desc "Initializer lists shall not contain persistent side effects"
+#define R13_2desc                                                              \
+  "The value of an expression and its persistent side effects shall "          \
+  "be the same under all permitted evaluation orders"
+#define R13_3desc                                                              \
+  "A full expression containing an increment (++) or decrement (--) "          \
+  "operator should have no other potential side effects other than "           \
+  "that caused by the increment or decrement operator"
+#define R13_4desc "The result of an assignment operator should not be used"
+#define R13_5desc                                                              \
+  "The right hand operand of a logical && or || operator shall not "           \
+  "contain persistent side effects"
+#define R13_6desc                                                              \
+  "The operand of the sizeof operator shall not contain any "                  \
+  "expression which has potential side effects"
+#define R14_1desc "A loop counter shall not have essentially floating type"
+#define R14_2desc "A for loop shall be well-formed"
+#define R14_3desc "Controlling expressions shall not be invariant"
+#define R14_4desc                                                              \
+  "The controlling expression of an if statement and the controlling "         \
+  "expression of an iteration- statement shall have essentially "              \
+  "Boolean type"
+#define R15_1desc "The goto statement should not be used"
+#define R15_2desc                                                              \
+  "The goto statement shall jump to a label declared later in the "            \
+  "same function"
+#define R15_3desc                                                              \
+  "Any label referenced by a goto statement shall be declared in the "         \
+  "same block, or in any block enclosing the goto statement"
+#define R15_4desc                                                              \
+  "There should be no more than one break or goto statement used to "          \
+  "terminate any iteration statement"
+#define R15_5desc "A function should have a single point of exit at the end"
+#define R15_6desc                                                              \
+  "The body of an iteration-statement or a selection-statement shall "         \
+  "be a compound-statement"
+#define R15_7desc                                                              \
+  "All if_.. else if constructs shall be terminated with an else "             \
+  "statement"
+#define R16_1desc "All switch statements shall be well-formed"
+#define R16_2desc                                                              \
+  "A switch label shall only be used when the most closely-enclosing "         \
+  "compound statement is the body of a switch statement"
+#define R16_3desc                                                              \
+  "An unconditional break statement shall terminate every "                    \
+  "switch-clause"
+#define R16_4desc "Every switch statement shall have a default label"
+#define R16_5desc                                                              \
+  "A default label shall appear as either the first or the last "              \
+  "switch label of a switch statement"
+#define R16_6desc                                                              \
+  "Every switch statement shall have at least two switch-clauses"
+#define R16_7desc "A switch-expression shall not have essentially Boolean type"
+#define R17_1desc "The features of <stdarg.h> shall not be used"
+#define R17_2desc                                                              \
+  "Functions shall not call themselves, either directly or indirectly"
+#define R17_3desc "A function shall not be declared implicitly"
+#define R17_4desc                                                              \
+  "All exit paths from a function with non-void return type shall "            \
+  "have an explicit return statement with an expression"
+#define R17_5desc                                                              \
+  "The function argument corresponding to a parameter declared to "            \
+  "have an array type shall have an appropriate number of elements"
+#define R17_6desc                                                              \
+  "The declaration of an array parameter shall not contain the static "        \
+  "keyword between the [ ]"
+#define R17_7desc                                                              \
+  "The value returned by a function having non-void return type shall "        \
+  "be used"
+#define R17_8desc "A function parameter should not be modified"
+#define R18_1desc                                                              \
+  "A pointer resulting from arithmetic on a pointer operand shall "            \
+  "address an element of the same array as that pointer operand"
+#define R18_2desc                                                              \
+  "Subtraction between pointers shall only be applied to pointers "            \
+  "that address elements of the same array"
+#define R18_3desc                                                              \
+  "The relational operators >, >=, < and <= shall not be applied to "          \
+  "objects of pointer type except where they point into the same "             \
+  "object"
+#define R18_4desc                                                              \
+  "The +, -, += and -= operators should not be applied to an "                 \
+  "expression of pointer type"
+#define R18_5desc                                                              \
+  "Declarations should contain no more than two levels of pointer "            \
+  "nesting"
+#define R18_6desc                                                              \
+  "The address of an object with automatic storage shall not be "              \
+  "copied to another object that persists after the first object has "         \
+  "ceased to exist"
+#define R18_7desc "Flexible array members shall not be declared"
+#define R18_8desc "Variable-length array types shall not be used"
+#define R19_1desc                                                              \
+  "An object shall not be assigned or copied to an overlapping object"
+#define R19_2desc "The union keyword should not be used"
+#define R20_1desc                                                              \
+  "#include directives should only be preceded by preprocessor "               \
+  "directives or comments"
+#define R20_2desc                                                              \
+  "The ', \" or \\ characters and the \/\* or \/\/ character "                 \
+  "sequences shall not occur in a header file name"
+#define R20_3desc                                                              \
+  "The #include directive shall be followed by either a <filename> "           \
+  "or filename sequence"
+#define R20_4desc "A macro shall not be defined with the same name as a keyword"
+#define R20_5desc "#undef should not be used"
+#define R20_6desc                                                              \
+  "Tokens that look like a preprocessing directive shall not occur "           \
+  "within a macro argument"
+#define R20_7desc                                                              \
+  "Expressions resulting from the expansion of macro parameters shall "        \
+  "be enclosed in parentheses"
+#define R20_8desc                                                              \
+  "The controlling expression of a #if or #elif preprocessing "                \
+  "directive shall evaluate to 0 or 1"
+#define R20_9desc                                                              \
+  "All identifiers used in the controlling expression of #if or #elif "        \
+  "preprocessing directives shall be #define?fd before evaluation"
+#define R20_10desc "The # and ## preprocessor operators should not be used"
+#define R20_11desc                                                             \
+  "A macro parameter immediately following a # operator shall not "            \
+  "immediately be followed by a ## operator"
+#define R20_12desc                                                             \
+  "A macro parameter used as an operand to the # or ## operators, "            \
+  "which is itself subject to further macro replacement, shall only "          \
+  "be used as an operand to these operators"
+#define R20_13desc                                                             \
+  "A line whose first token is # shall be a valid preprocessing "              \
+  "directive"
+#define R20_14desc                                                             \
+  "All #else, #elif and #endif preprocessor directives shall reside "          \
+  "in the same file as the #if, #ifdef or #ifndef directive to which "         \
+  "they are related"
+#define R21_1desc                                                              \
+  "#define and #undef shall not be used on a reserved identifier or "          \
+  "reserved macro name"
+#define R21_2desc "A reserved identifier or macro name shall not be declared"
+#define R21_3desc                                                              \
+  "The memory allocation and deallocation functions of <stdlib.h> "            \
+  "shall not be used"
+#define R21_4desc "The standard header file <setjmp.h> shall not be used"
+#define R21_5desc "The standard header file <signal.h> shall not be used"
+#define R21_6desc                                                              \
+  "The Standard Library input/output functions shall not be used"
+#define R21_7desc                                                              \
+  "The atof, atoi, atol and atoll functions of <stdlib.h> shall not "          \
+  "be used"
+#define R21_8desc                                                              \
+  "The library functions abort, exit, getenv and system of <stdlib.h> "        \
+  "shall not be used"
+#define R21_9desc                                                              \
+  "The library functions bsearch and qsort of <stdlib.h> shall not be "        \
+  "used"
+#define R21_10desc                                                             \
+  "The Standard Library time and date functions shall not be used"
+#define R21_11desc "The standard header file <tgmath.h> shall not be used"
+#define R21_12desc                                                             \
+  "The exception handling features of <fenv.h> should not be used"
+#define R21_13desc                                                             \
+  "Any value passed to a function in <ctype.h> shall be "                      \
+  "representable as an unsigned char or be the value EOF"
+#define R21_14desc                                                             \
+  "The Standard Library function memcmp shall not be used to compare "         \
+  "null terminated strings"
+#define R21_15desc                                                             \
+  "The pointer arguments to the Standard library functions memcpy "            \
+  "memmove and memcmp shall be pointers to qualified or unqualified "          \
+  "version of compatible types"
+#define R21_16desc                                                             \
+  "The pointer arguments to the Standard Library function memcmp "             \
+  "shall point to either a pointer type, an essentially signed type, "         \
+  "an essentially unsigned type, an essentially Boolean type or an "           \
+  "essentially enum type."
+#define R21_17desc                                                             \
+  "Use of the string handlling functions form <string.h> shall not "           \
+  "result in accesses beyond the bound of objects referenced their "           \
+  "pointer parameters"
+#define R21_18desc                                                             \
+  "The size_t argument passed to any function in <string.h> shall "            \
+  "have an appropriate value"
+#define R21_19desc                                                             \
+  "The pointer returned by the standard libraray functions "                   \
+  "localeconv,getenv,setlocale or strerror shall only be used as if "          \
+  "they have pointer to const-qualified type"
+#define R21_20desc                                                             \
+  "The pointer returned by the standard libraray functions "                   \
+  "asctime,ctime,gmtime,localtime,localeconv,getenv,setlocale or "             \
+  "strerror shall not be used following a subsequent call to the same "        \
+  "function"
+#define R22_1desc                                                              \
+  "All resources obtained dynamically by means of Standard Library functions " \
+  "shall be explicitly released"
+#define R22_2desc                                                              \
+  "A block of memory shall only be freed if it was allocated by means "        \
+  "of a Standard Library function"
+#define R22_3desc                                                              \
+  "The same file shall not be open for read and write access at the "          \
+  "same time on different streams"
+#define R22_4desc                                                              \
+  "There shall be no attempt to write to a stream which has been "             \
+  "opened as read-only"
+#define R22_5desc "A pointer to a FILE object shall not be dereferenced"
+#define R22_6desc                                                              \
+  "The value of a pointer to a FILE shall not be used after the "              \
+  "associated stream has been closed"
+#define R22_7desc                                                              \
+  "The macro EOF shall only be compared with the unmodified return "           \
+  "value from any Standard Library function capable of returning EOF"
+#define R22_8desc                                                              \
+  "The value of errno shall be set to zero prior to a call to an "             \
+  "errno-setting-function"
+#define R22_9desc                                                              \
+  "The value of errno shall be tested against zero after calling an "          \
+  "errno-setting-function"
+#define R22_10desc                                                             \
+  "The value of errno shall only be tested when the last function to "         \
+  "be called was an errno-setting-function"

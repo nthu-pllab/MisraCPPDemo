@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>{{ html_title }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.2/codemirror.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.2/theme/dracula.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.2/addon/scroll/simplescrollbars.min.css">
+  <link href="assets/report.css" rel="stylesheet">
+</head>
+<style>
+body{
+  font-family: Arial, Meiryo, sans-serif;
+  font-size: 12pt;
+}
+pre {
+  font-family: "Monospace", monospace;
+  color: #f5f3c3;
+  background-color: #282a36;
+  border: none;
+}
+table>tbody>tr>th{
+  text-align: right;
+}
+.h1, .h2, .h3, h1, h2, h3 {
+  color: #4f330f;
+  margin-bottom: 20px;
+}
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+  border-top: none;
+}
+</style>
+<body>
+<br>
+<div class="container">
+<h3>・Bug Summary</h3>
+<table class="table">
+  <tr><th class="col-xs-2">Category</th><td>{{ diagnostic.category }}</td></tr>
+  <tr><th>Type</th><td>{{ diagnostic.type }}</td></tr>
+  <tr><th>Description</th><td>{{ diagnostic.description }}</td></tr>
+  <tr><th>File</th><td>{{ diagnostic.location.file }}</td></tr>
+  <tr><th>Line</th><td><a href="#LN{{ diagnostic.location.line }}">{{ diagnostic.location.line }}</a></td></tr>
+  <tr><th>Column</th><td>{{ diagnostic.location.column }}</td></tr>
+</table>
+<h3>・ JSON Format Diagnostic</h3>
+<textarea id="json-diagnostic">{{ json_diagnostic }}</textarea>
+<h3>・ Analyzer Command&nbsp;&nbsp;<button class="btn btn-default copy" data-clipboard-target="#cmd" role="button"><svg class="octicon octicon-clippy" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M2 13h4v1H2v-1zm5-6H2v1h5V7zm2 3V8l-3 3 3 3v-2h5v-2H9zM4.5 9H2v1h2.5V9zM2 12h2.5v-1H2v1zm9 1h1v2c-.02.28-.11.52-.3.7-.19.18-.42.28-.7.3H1c-.55 0-1-.45-1-1V4c0-.55.45-1 1-1h3c0-1.11.89-2 2-2 1.11 0 2 .89 2 2h3c.55 0 1 .45 1 1v5h-1V6H1v9h10v-2zM2 5h8c0-.55-.45-1-1-1H8c-.55 0-1-.45-1-1s-.45-1-1-1-1 .45-1 1-.45 1-1 1H3c-.55 0-1 .45-1 1z"></path></svg></button></h3>
+<pre id="cmd">{{ cmd }}</pre>
+<hr>
+<h3>・ Annotated Source Code&nbsp;&nbsp;<a class="btn btn-default" role="button" target="_blank" href="code_viewer.html?q={{ src_relpath }}">View Full Source Code with Linenos</a></h3>
+<table class="code">
+{% for source_line in source_lines %}
+<tr><td class="num" id="LN{{ source_line.lineno }}">{{ source_line.lineno }}</td><td class="line">{% for code_segment in source_line.code_segments %}{% if code_segment.highlight %}<span class="mrange">{{ code_segment.code }}</span>{% else %}{{ code_segment.code }}{% endif %}{% endfor %}</td></tr>
+{% for event in source_line.messages %}
+<tr><td class="num"></td><td class="line"><div id="EndPath" class="msg msgEvent" style="margin-left:{{ event.column }}ex">{{ event.message }}</div></td></tr>
+{% endfor %}
+{% endfor %}
+</table>
+</div>
+<br>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.2/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.2/mode/javascript/javascript.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.2/addon/scroll/simplescrollbars.min.js"></script>
+<script>
+var clipboard = new ClipboardJS('.copy');
+clipboard.on('success', function(e) {e.clearSelection();});
+var editor = CodeMirror.fromTextArea(document.getElementById('json-diagnostic'), {
+  mode: 'javascript',
+  theme: 'dracula',
+  lineNumbers: true,
+  lineWrapping: true,
+  indentUnit: 4,
+  indentWithTabs: true,
+  showCursorWhenSelecting: true,
+  scrollbarStyle: "overlay",
+  readOnly: true
+});
+editor.setSize(null, 500);
+</script>
+</body>
+</html>

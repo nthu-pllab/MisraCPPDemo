@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>{{ html_title }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.2/codemirror.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.2/theme/dracula.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.2/addon/scroll/simplescrollbars.min.css">
+  <link href="assets/report.css" rel="stylesheet">
+</head>
+<style>
+body{
+  font-family: Arial, Meiryo, sans-serif;
+  font-size: 12pt;
+}
+pre {
+  font-family: "Monospace", monospace;
+  color: #f5f3c3;
+  background-color: #282a36;
+  border: none;
+}
+table>tbody>tr>th{
+  text-align: right;
+}
+.h1, .h2, .h3, h1, h2, h3 {
+  color: #4f330f;
+  margin-bottom: 20px;
+}
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+  border-top: none;
+}
+</style>
+<body>
+<br>
+<div class="container">
+<h3>・Bug Summary</h3>
+<table class="table">
+  <tr><th class="col-xs-2">Type</th><td>{{ diagnostic.checker }}</td></tr>
+  <tr><th>Description</th><td>{{ diagnostic.main_event.description }}</td></tr>
+  <tr><th>File</th><td>{{ diagnostic.file }}</td></tr>
+  <tr><th>Function</th><td>{{ diagnostic.function }}</td></tr>
+  <tr><th>Line</th><td><a href="#LN{{ diagnostic.main_event.line }}">{{ diagnostic.main_event.line }}</a></td></tr>
+</table>
+<h3>・ JSON Format Diagnostic</h3>
+<textarea id="json-diagnostic">{{ json_diagnostic }}</textarea>
+<hr>
+<h3>・ Annotated Source Code&nbsp;&nbsp;<a class="btn btn-default" role="button" target="_blank" href="code_viewer.html?q={{ src_relpath }}">View Full Source Code with Linenos</a></h3>
+<table class="code">
+{% for source_line in source_lines %}
+<tr><td class="num" id="LN{{ source_line.lineno }}">{{ source_line.lineno }}</td><td class="line">{% for code_segment in source_line.code_segments %}{% if code_segment.highlight %}<span class="mrange">{{ code_segment.code }}</span>{% else %}{{ code_segment.code }}{% endif %}{% endfor %}</td></tr>
+{% for event in source_line.messages %}
+<tr><td class="num"></td><td class="line"><div id="EndPath" class="msg msgEvent" style="margin-left:{{ event.column }}ex">{{ event.message }}</div></td></tr>
+{% endfor %}
+{% endfor %}
+</table>
+</div>
+<br>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.2/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.2/mode/javascript/javascript.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.2/addon/scroll/simplescrollbars.min.js"></script>
+<script>
+var clipboard = new ClipboardJS('.copy');
+clipboard.on('success', function(e) {e.clearSelection();});
+var editor = CodeMirror.fromTextArea(document.getElementById('json-diagnostic'), {
+  mode: 'javascript',
+  theme: 'dracula',
+  lineNumbers: true,
+  lineWrapping: true,
+  indentUnit: 4,
+  indentWithTabs: true,
+  showCursorWhenSelecting: true,
+  scrollbarStyle: "overlay",
+  readOnly: true
+});
+editor.setSize(null, 500);
+</script>
+</body>
+</html>

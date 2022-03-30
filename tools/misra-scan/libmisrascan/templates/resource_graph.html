@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>{{ html_title }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<style>
+body{
+  font-family: Arial, Meiryo, sans-serif;
+  font-size: 12pt;
+}
+pre {
+  font-family: "Monospace", monospace;
+  color: #f5f3c3;
+  background-color: #282a36;
+  border: none;
+}
+table>tbody>tr>th{
+  text-align: right;
+}
+.h1, .h2, .h3, h1, h2, h3 {
+  color: #4f330f;
+  margin-bottom: 20px;
+}
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+  border-top: none;
+}
+#cy{
+  height: 800px;
+  border: 1px solid #1c70be;
+}
+</style>
+<body>
+<br>
+<div class="container">
+<h3>・Resource Graph</h3>
+<div id="cy"></div>
+</div>
+<br>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.2.20/cytoscape.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dagre/0.8.2/dagre.min.js"></script>
+<script src="assets/cytoscape-dagre.js"></script>
+<script>
+var cy = cytoscape({
+  container: document.getElementById('cy'),
+
+  elements: { // list of graph elements to start with
+    nodes: {{ nodes | safe }},
+    edges: {{ edges | safe }}
+  },
+
+  style: [ // the stylesheet for the graph
+    {
+      selector: 'node',
+      style: {
+        'content': 'data(id)',
+        'text-valign': 'top',
+        'text-halign': 'center',
+        'background-color': '#f00'
+      }
+    },
+
+    {
+      selector: 'edge',
+      style: {
+        'curve-style': 'bezier',
+        'width': 1,
+        'line-color': '#999',
+        'target-arrow-color': '#fa0',
+        'target-arrow-shape': 'triangle'
+      }
+    }
+  ],
+
+  layout: {
+    name: 'dagre',
+    rankDir: 'LR',
+    ranker: 'tight-tree'
+  }
+});
+</script>
+</body>
+</html>
